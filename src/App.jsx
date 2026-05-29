@@ -90,7 +90,7 @@ export default function App() {
           <PomodoroPage subjects={subjects} onSessionComplete={addLog} logs={logs} />
         )}
         {tab === 'subjects' && (
-          <SubjectsPage subjects={subjects} onAdd={addSubject} onRemove={removeSubject} />
+          <SubjectsPage subjects={subjects} onAdd={addSubject} onRemove={removeSubject} logs={logs} />
         )}
         {tab === 'calendar' && (
           <CalendarPage

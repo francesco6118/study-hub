@@ -11,7 +11,7 @@ const COLORS = [
   { label: 'Camgöbeği',  value: '#06b6d4' },
 ]
 
-export default function SubjectManager({ subjects, onAdd, onRemove }) {
+export default function SubjectManager({ subjects, onAdd, onRemove, onSelect }) {
   const [name, setName] = useState('')
   const [color, setColor] = useState(COLORS[4].value)
 
@@ -65,12 +65,18 @@ export default function SubjectManager({ subjects, onAdd, onRemove }) {
       ) : (
         <ul className="flex flex-col gap-2">
           {subjects.map(subject => (
-            <li key={subject.id} className="flex items-center gap-3 bg-slate-800 rounded-xl px-4 py-3">
-              <div className="w-4 h-4 rounded-full shrink-0" style={{ backgroundColor: subject.color }} />
-              <span className="text-white flex-1 text-sm font-medium">{subject.name}</span>
+            <li key={subject.id} className="flex items-center bg-slate-800 rounded-xl overflow-hidden">
+              <button
+                onClick={() => onSelect(subject.id)}
+                className="flex items-center gap-3 flex-1 px-4 py-3 text-left hover:bg-slate-700 transition-colors"
+              >
+                <div className="w-4 h-4 rounded-full shrink-0" style={{ backgroundColor: subject.color }} />
+                <span className="text-white flex-1 text-sm font-medium">{subject.name}</span>
+                <span className="text-slate-600 text-lg leading-none">›</span>
+              </button>
               <button
                 onClick={() => onRemove(subject.id)}
-                className="text-slate-500 hover:text-red-400 transition-colors text-xl leading-none px-1"
+                className="px-4 py-3 text-slate-500 hover:text-red-400 transition-colors text-xl leading-none"
                 title="Dersi sil"
               >
                 ×

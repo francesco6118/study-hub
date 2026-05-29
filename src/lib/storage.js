@@ -5,6 +5,8 @@ export const KEYS = {
   POMODORO_LOGS: 'studyhub_pomodoro_logs',
   BEST_STREAK:   'studyhub_best_streak',
   DAILY_GOAL:    'studyhub_daily_goal',
+  SUBJECT_NOTES: 'studyhub_subject_notes',
+  SUBJECT_GOALS: 'studyhub_subject_goals',
 }
 
 // Single entry point for all localStorage access.

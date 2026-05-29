@@ -86,9 +86,9 @@ Kurallar:
   Tamamlanan pomodoro sayısı, ders başına süre, haftalık grafik (Recharts).
 - [x] **Faz 5 — Streak & motivasyon**
   Günlük seri sayacı, günlük/haftalık hedef, motive edici geri bildirim.
-- [ ] **Faz 6 — Ders bazlı not & hedef** ← ŞU AN BURADAYIZ
+- [x] **Faz 6 — Ders bazlı not & hedef**
   Her derse not alanı ve hedef belirleme.
-- [ ] **Faz 7 — Google Takvim senkronu**
+- [ ] **Faz 7 — Google Takvim senkronu** ← ŞU AN BURADAYIZ
   Planlanan çalışma seanslarını Google Takvim'e yaz. (En zor faz — Bölüm 7'ye bak.)
 - [ ] **Faz 8 — Cila + PWA**
   Mobil ince ayar, telefona kurulabilir (PWA) hale getirme, bildirimler.
