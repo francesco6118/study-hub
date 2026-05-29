@@ -92,6 +92,9 @@ Kurallar:
   Planlanan çalışma seanslarını Google Takvim'e yaz. (En zor faz — Bölüm 7'ye bak.)
 - [ ] **Faz 8 — Cila + PWA**
   Mobil ince ayar, telefona kurulabilir (PWA) hale getirme, bildirimler.
+- [x] **Faz 9 — Ders videoları**
+  Her derse YouTube video listesi; başlık + link ekleme/düzenleme/silme, sıralama (▲▼),
+  "Bitirdim" checkbox'ı, X/Y ilerleme çubuğu. Iframe yok — link yeni sekmede açılır.
 
 ---
 

@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import SubjectNotes from './SubjectNotes'
 import SubjectGoals from './SubjectGoals'
+import SubjectVideos from './SubjectVideos'
 import { formatMinutes } from '../../lib/stats'
 
 function StatMini({ value, label }) {
@@ -14,13 +15,16 @@ function StatMini({ value, label }) {
 
 export default function SubjectDetail({
   subject, logs, note, onSaveNote,
-  goals, onAddGoal, onToggleGoal, onRemoveGoal, onBack,
+  goals, onAddGoal, onToggleGoal, onRemoveGoal,
+  videoOps, onBack,
 }) {
   const subjectLogs = useMemo(
     () => logs.filter(l => l.subjectId === subject.id),
     [logs, subject.id]
   )
   const totalMinutes = subjectLogs.reduce((s, l) => s + l.durationMinutes, 0)
+  const { videosFor, addVideo, updateVideo, removeVideo, toggleVideo, moveVideo } = videoOps
+  const subjectVideos = videosFor(subject.id)
 
   return (
     <div className="flex flex-col gap-5 w-full max-w-sm mx-auto">
@@ -57,6 +61,18 @@ export default function SubjectDetail({
           onAdd={onAddGoal}
           onToggle={onToggleGoal}
           onRemove={onRemoveGoal}
+        />
+      </div>
+
+      {/* Videos */}
+      <div className="bg-slate-800 rounded-2xl p-4">
+        <SubjectVideos
+          videos={subjectVideos}
+          onAdd={(title, url) => addVideo(subject.id, title, url)}
+          onUpdate={updateVideo}
+          onRemove={removeVideo}
+          onToggle={toggleVideo}
+          onMove={moveVideo}
         />
       </div>
     </div>
