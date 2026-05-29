@@ -12,7 +12,7 @@ export default function PomodoroPage({ subjects, onSessionComplete, logs }) {
   const todayCount = useMemo(() => todayLogs(logs).length, [logs])
 
   return (
-    <div className="flex flex-col gap-5 w-full max-w-sm mx-auto">
+    <div className="flex flex-col gap-5 w-full w-full">
       <Toast toast={toast} onDismiss={dismissToast} />
 
       <StreakPanel

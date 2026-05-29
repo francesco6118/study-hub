@@ -24,7 +24,7 @@ export default function SubjectDetail({
   const subjectVideos = videosFor(subject.id)
 
   return (
-    <div className="flex flex-col gap-5 w-full max-w-sm mx-auto">
+    <div className="flex flex-col gap-5 w-full">
       <div className="flex items-center gap-3">
         <button onClick={onBack}
           className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-1 text-sm shrink-0">

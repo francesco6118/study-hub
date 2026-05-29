@@ -13,8 +13,9 @@ function addDays(date, n) {
   const d = new Date(date); d.setDate(d.getDate() + n); return d
 }
 function formatRange(start, end) {
-  const opts = { day: 'numeric', month: 'short' }
-  return `${start.toLocaleDateString('tr-TR', opts)} – ${end.toLocaleDateString('tr-TR', opts)}`
+  const startStr = start.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' })
+  const endStr   = end.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' })
+  return `${startStr} – ${endStr}`
 }
 
 export default function CalendarView({ sessions, subjects, onAddSession, onDeleteSession }) {

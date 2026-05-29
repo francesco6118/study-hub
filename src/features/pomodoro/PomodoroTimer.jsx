@@ -43,7 +43,7 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
   const ringColor = selectedSubject ? selectedSubject.color : (mode === 'work' ? '#10b981' : '#f59e0b')
 
   return (
-    <div className="flex flex-col items-center gap-5 w-full max-w-sm mx-auto">
+    <div className="flex flex-col items-center gap-5 w-full">
       <SubjectSelect subjects={subjects ?? []} selectedId={selectedSubjectId} onSelect={setSelectedSubjectId} />
 
       {/* Circular progress ring — responsive size */}

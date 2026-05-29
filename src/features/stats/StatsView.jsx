@@ -13,7 +13,7 @@ export default function StatsView({ logs, subjects }) {
   const subjectData = useMemo(() => bySubjectData(logs, subjects), [logs, subjects])
 
   return (
-    <div className="flex flex-col gap-5 w-full max-w-sm mx-auto">
+    <div className="flex flex-col gap-5 w-full">
       <h2 className="text-lg font-bold text-slate-900 dark:text-white">İstatistikler</h2>
 
       {logs.length === 0 ? (

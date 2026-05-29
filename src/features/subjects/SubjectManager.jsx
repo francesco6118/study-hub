@@ -24,7 +24,7 @@ export default function SubjectManager({ subjects, onAdd, onRemove, onSelect }) 
   }
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-sm mx-auto">
+    <div className="flex flex-col gap-6 w-full">
       <h2 className="text-lg font-bold text-slate-900 dark:text-white">Derslerim</h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-100 dark:border-transparent">
@@ -55,10 +55,14 @@ export default function SubjectManager({ subjects, onAdd, onRemove, onSelect }) 
           {subjects.map(subject => (
             <li key={subject.id} className="flex items-center bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-transparent">
               <button onClick={() => onSelect(subject.id)}
-                className="flex items-center gap-3 flex-1 px-4 py-3.5 text-left hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                className="group flex items-center gap-3 flex-1 px-4 py-3.5 text-left hover:bg-slate-50 dark:hover:bg-slate-700 active:bg-slate-100 dark:active:bg-slate-600 transition-colors">
                 <div className="w-4 h-4 rounded-full shrink-0" style={{ backgroundColor: subject.color }} />
                 <span className="text-slate-900 dark:text-white flex-1 text-sm font-medium">{subject.name}</span>
-                <span className="text-slate-300 dark:text-slate-600 text-lg leading-none">›</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                  strokeLinecap="round" strokeLinejoin="round"
+                  className="text-slate-300 dark:text-slate-600 group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all shrink-0">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
               </button>
               <button onClick={() => onRemove(subject.id)}
                 className="px-4 py-3.5 text-slate-400 dark:text-slate-500 hover:text-red-500 transition-colors text-xl leading-none" title="Dersi sil">
