@@ -183,7 +183,10 @@ export default function App() {
         {/* Main content */}
         <main className="px-4 lg:px-10 pb-24 lg:pb-10 pt-0 lg:pt-8 flex-1">
           <div className="max-w-sm lg:max-w-xl mx-auto lg:mx-0">
-            {pageContent}
+            {/* key forces remount on tab change → triggers fade-up animation */}
+            <div key={tab} className="animate-fade-up">
+              {pageContent}
+            </div>
           </div>
         </main>
 

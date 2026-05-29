@@ -125,7 +125,7 @@ export default function SubjectVideos({ videos, onAdd, onUpdate, onRemove, onTog
 
       {videos.length > 0 && (
         <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-600 rounded-full overflow-hidden -mt-1">
-          <div style={{ width: `${pct * 100}%` }} className="h-full bg-emerald-500 rounded-full transition-all duration-300" />
+          <div style={{ width: `${pct * 100}%` }} className="h-full bg-emerald-500 rounded-full transition-all duration-500 ease-out" />
         </div>
       )}
 

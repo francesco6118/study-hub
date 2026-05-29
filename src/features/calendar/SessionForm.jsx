@@ -19,9 +19,9 @@ export default function SessionForm({ subjects, onSave, onClose }) {
   const inputCls = 'bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-emerald-500 w-full'
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-4"
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-4 animate-fade-in"
       onClick={e => { if (e.target === e.currentTarget) onClose() }}>
-      <div className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-sm p-5 flex flex-col gap-4 shadow-xl">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-sm p-5 flex flex-col gap-4 shadow-xl animate-scale-in">
         <h3 className="text-slate-900 dark:text-white font-bold text-base">Seans Ekle</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div className="flex flex-col gap-1.5">

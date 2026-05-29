@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
-/* Class-based dark mode: applies when an ancestor has .dark */
+/* ── Class-based dark mode ─────────────────────────────────────────── */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* CSS variables for elements that can't use Tailwind classes
-   (SVG stroke attrs, Recharts inline styles) */
+/* ── CSS variables (SVG / Recharts — can't use Tailwind classes) ───── */
 :root {
   --timer-track:    #e2e8f0;
   --tooltip-bg:     #ffffff;
@@ -20,17 +19,62 @@
   --tooltip-muted:  #94a3b8;
 }
 
-/* iOS safe area + tap highlight */
+/* ── Keyframes ─────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95) translateY(6px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+/* ── Animation utility classes ─────────────────────────────────────── */
+/* "both" fill: starts invisible (no flash) and stays visible after */
+.animate-fade-up    { animation: fadeUp    220ms ease-out both; }
+.animate-scale-in   { animation: scaleIn   200ms ease-out both; }
+.animate-fade-in    { animation: fadeIn    180ms ease-out both; }
+.animate-slide-down { animation: slideDown 240ms ease-out both; }
+
+/* ── Pomodoro timer ring ────────────────────────────────────────────── */
+/* Separate stroke-dashoffset (1 s) and stroke colour (0.6 s) transitions */
+.timer-ring-progress {
+  transition: stroke-dashoffset 1000ms ease, stroke 600ms ease;
+}
+
+/* ── Focus ring — keyboard navigation ──────────────────────────────── */
+/* Only show outline for keyboard users (not on click) */
+:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Typography ─────────────────────────────────────────────────────── */
+/* Multi-line headings look better with balanced line lengths */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+/* ── Mobile / iOS ───────────────────────────────────────────────────── */
 html {
   -webkit-tap-highlight-color: transparent;
 }
-
-/* Smooth momentum scroll on iOS */
 main {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Form elements: follow theme for native OS pickers */
+/* ── Form elements: follow active theme for native OS pickers ───────── */
 select,
 input[type="date"],
 input[type="time"],
@@ -42,4 +86,17 @@ input[type="number"] {
 .dark input[type="time"],
 .dark input[type="number"] {
   color-scheme: dark;
+}
+
+/* ── Reduced motion: disable all animations and transitions ─────────── */
+/* Respects OS / browser "Reduce motion" accessibility setting */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+    scroll-behavior:           auto   !important;
+  }
 }

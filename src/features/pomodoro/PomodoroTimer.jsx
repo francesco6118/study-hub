@@ -138,7 +138,7 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
             stroke={ringColor} strokeWidth="10" strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={circumference * (1 - progress)}
-            className="transition-all duration-1000"
+            className="timer-ring-progress"
           />
         </svg>
         <div className="absolute">
@@ -157,7 +157,7 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
 
       {/* Settings */}
       <div className="w-full border-t border-slate-200 dark:border-slate-700 pt-5 flex flex-col gap-4">
-        <p className="text-center text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wide">Ayarlar</p>
+        <p className="text-center text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide font-medium">Ayarlar</p>
 
         <DurationSettings
           workMinutes={workMinutes} breakMinutes={breakMinutes}

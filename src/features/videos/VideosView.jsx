@@ -5,7 +5,7 @@ function ProgressBar({ ratio, thin = false }) {
   return (
     <div className={`w-full ${thin ? 'h-1.5' : 'h-2'} bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden`}>
       <div style={{ width: `${Math.min(1, ratio) * 100}%` }}
-        className="h-full bg-emerald-500 rounded-full transition-all duration-300" />
+        className="h-full bg-emerald-500 rounded-full transition-all duration-500 ease-out" />
     </div>
   )
 }
