@@ -73,14 +73,14 @@ Kurallar:
 
 ## 6. Faz Yol Haritası
 
-- [ ] **Faz 1 — Temel + Pomodoro** ← ŞU AN BURADAYIZ
+- [x] **Faz 1 — Temel + Pomodoro**
   Vite + React + Tailwind kurulumu. Boş iskeleti Vercel'e at.
   Pomodoro: ayarlanabilir çalışma (vars. 25dk) ve mola (5dk) süresi, başlat/duraklat/sıfırla,
   büyük okunaklı sayaç, süre bitince ses + tarayıcı bildirimi.
-- [ ] **Faz 2 — Dersler + takvim (yerel)**
+- [x] **Faz 2 — Dersler + takvim (yerel)**
   Ders ekleme/silme. Çalışma seansı planlama. Uygulama içi takvim görünümü.
   Her Pomodoro bir derse bağlanabilsin.
-- [ ] **Faz 3 — Görev listesi**
+- [ ] **Faz 3 — Görev listesi** ← ŞU AN BURADAYIZ
   To-do ekle/tamamla/sil. Görevler derslere bağlanabilsin.
 - [ ] **Faz 4 — İstatistik & grafikler**
   Tamamlanan pomodoro sayısı, ders başına süre, haftalık grafik (Recharts).

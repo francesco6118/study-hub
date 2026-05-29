@@ -1,3 +1,8 @@
+export const KEYS = {
+  SUBJECTS: 'studyhub_subjects',
+  SESSIONS: 'studyhub_sessions',
+}
+
 // Single entry point for all localStorage access.
 export function getItem(key, fallback = null) {
   try {
