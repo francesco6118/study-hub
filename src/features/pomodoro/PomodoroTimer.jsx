@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import useTimer from '../../hooks/useTimer'
 import { playAlarm, requestNotificationPermission, showNotification } from '../../lib/audio'
 import TimerDisplay from './TimerDisplay'
@@ -6,12 +6,16 @@ import TimerControls from './TimerControls'
 import DurationSettings from './DurationSettings'
 import SubjectSelect from './SubjectSelect'
 
-export default function PomodoroTimer({ subjects }) {
+export default function PomodoroTimer({ subjects, onSessionComplete }) {
   const [workMinutes, setWorkMinutes] = useState(25)
   const [breakMinutes, setBreakMinutes] = useState(5)
   const [mode, setMode] = useState('work') // 'work' | 'break'
   const [session, setSession] = useState(1)
   const [selectedSubjectId, setSelectedSubjectId] = useState(null)
+
+  // Keep a stable ref so handleExpire never needs onSessionComplete in its deps
+  const onSessionCompleteRef = useRef(onSessionComplete)
+  useEffect(() => { onSessionCompleteRef.current = onSessionComplete }, [onSessionComplete])
 
   useEffect(() => {
     requestNotificationPermission()
@@ -20,6 +24,11 @@ export default function PomodoroTimer({ subjects }) {
   const handleExpire = useCallback(() => {
     playAlarm()
     if (mode === 'work') {
+      onSessionCompleteRef.current?.({
+        subjectId: selectedSubjectId,
+        durationMinutes: workMinutes,
+        completedAt: new Date().toISOString(),
+      })
       showNotification('Süre doldu!', `${workMinutes} dakikalık çalışma bitti. Mola zamanı!`)
       setMode('break')
     } else {
@@ -27,7 +36,7 @@ export default function PomodoroTimer({ subjects }) {
       setMode('work')
       setSession(s => s + 1)
     }
-  }, [mode, workMinutes])
+  }, [mode, workMinutes, selectedSubjectId])
 
   const activeDuration = mode === 'work' ? workMinutes * 60 : breakMinutes * 60
   const { secondsLeft, running, start, pause, reset } = useTimer(activeDuration, handleExpire)

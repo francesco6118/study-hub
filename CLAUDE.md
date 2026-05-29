@@ -82,9 +82,9 @@ Kurallar:
   Her Pomodoro bir derse bağlanabilsin.
 - [x] **Faz 3 — Görev listesi**
   To-do ekle/tamamla/sil. Görevler derslere bağlanabilsin.
-- [ ] **Faz 4 — İstatistik & grafikler** ← ŞU AN BURADAYIZ
+- [x] **Faz 4 — İstatistik & grafikler**
   Tamamlanan pomodoro sayısı, ders başına süre, haftalık grafik (Recharts).
-- [ ] **Faz 5 — Streak & motivasyon**
+- [ ] **Faz 5 — Streak & motivasyon** ← ŞU AN BURADAYIZ
   Günlük seri sayacı, günlük/haftalık hedef, motive edici geri bildirim.
 - [ ] **Faz 6 — Ders bazlı not & hedef**
   Her derse not alanı ve hedef belirleme.
