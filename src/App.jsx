@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import useSubjects from './hooks/useSubjects'
 import useSessions from './hooks/useSessions'
+import useTasks from './hooks/useTasks'
 import PomodoroPage from './pages/PomodoroPage'
 import SubjectsPage from './pages/SubjectsPage'
 import CalendarPage from './pages/CalendarPage'
+import TasksPage from './pages/TasksPage'
 
 function TimerIcon({ active }) {
   return (
@@ -37,35 +39,41 @@ function CalIcon({ active }) {
   )
 }
 
+function TasksIcon({ active }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+      stroke={active ? '#34d399' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 11l3 3 8-8" />
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+    </svg>
+  )
+}
+
 const TABS = [
   { id: 'pomodoro', label: 'Pomodoro' },
   { id: 'subjects', label: 'Dersler' },
   { id: 'calendar', label: 'Takvim' },
+  { id: 'tasks',    label: 'Görevler' },
 ]
 
 export default function App() {
   const [tab, setTab] = useState('pomodoro')
   const { subjects, addSubject, removeSubject } = useSubjects()
   const { sessions, addSession, removeSession } = useSessions()
+  const { tasks, addTask, toggleTask, removeTask } = useTasks()
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-      {/* Top bar */}
       <header className="px-4 pt-5 pb-3 max-w-xl mx-auto">
         <h1 className="text-xl font-bold tracking-tight text-white">Study Hub</h1>
       </header>
 
-      {/* Page content */}
       <main className="px-4 pb-24 max-w-xl mx-auto">
         {tab === 'pomodoro' && (
           <PomodoroPage subjects={subjects} />
         )}
         {tab === 'subjects' && (
-          <SubjectsPage
-            subjects={subjects}
-            onAdd={addSubject}
-            onRemove={removeSubject}
-          />
+          <SubjectsPage subjects={subjects} onAdd={addSubject} onRemove={removeSubject} />
         )}
         {tab === 'calendar' && (
           <CalendarPage
@@ -75,9 +83,17 @@ export default function App() {
             onDeleteSession={removeSession}
           />
         )}
+        {tab === 'tasks' && (
+          <TasksPage
+            tasks={tasks}
+            subjects={subjects}
+            onAdd={addTask}
+            onToggle={toggleTask}
+            onRemove={removeTask}
+          />
+        )}
       </main>
 
-      {/* Bottom navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 flex z-30">
         {TABS.map(t => {
           const active = tab === t.id
@@ -92,6 +108,7 @@ export default function App() {
               {t.id === 'pomodoro' && <TimerIcon active={active} />}
               {t.id === 'subjects' && <BookIcon active={active} />}
               {t.id === 'calendar' && <CalIcon active={active} />}
+              {t.id === 'tasks'    && <TasksIcon active={active} />}
               {t.label}
             </button>
           )

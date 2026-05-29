@@ -1,6 +1,7 @@
 export const KEYS = {
   SUBJECTS: 'studyhub_subjects',
   SESSIONS: 'studyhub_sessions',
+  TASKS:    'studyhub_tasks',
 }
 
 // Single entry point for all localStorage access.

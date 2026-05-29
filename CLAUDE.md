@@ -80,9 +80,9 @@ Kurallar:
 - [x] **Faz 2 — Dersler + takvim (yerel)**
   Ders ekleme/silme. Çalışma seansı planlama. Uygulama içi takvim görünümü.
   Her Pomodoro bir derse bağlanabilsin.
-- [ ] **Faz 3 — Görev listesi** ← ŞU AN BURADAYIZ
+- [x] **Faz 3 — Görev listesi**
   To-do ekle/tamamla/sil. Görevler derslere bağlanabilsin.
-- [ ] **Faz 4 — İstatistik & grafikler**
+- [ ] **Faz 4 — İstatistik & grafikler** ← ŞU AN BURADAYIZ
   Tamamlanan pomodoro sayısı, ders başına süre, haftalık grafik (Recharts).
 - [ ] **Faz 5 — Streak & motivasyon**
   Günlük seri sayacı, günlük/haftalık hedef, motive edici geri bildirim.
