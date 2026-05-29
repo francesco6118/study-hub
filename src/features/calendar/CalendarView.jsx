@@ -9,13 +9,9 @@ function getMonday(date) {
   d.setDate(d.getDate() - (day === 0 ? 6 : day - 1))
   return d
 }
-
 function addDays(date, n) {
-  const d = new Date(date)
-  d.setDate(d.getDate() + n)
-  return d
+  const d = new Date(date); d.setDate(d.getDate() + n); return d
 }
-
 function formatRange(start, end) {
   const opts = { day: 'numeric', month: 'short' }
   return `${start.toLocaleDateString('tr-TR', opts)} – ${end.toLocaleDateString('tr-TR', opts)}`
@@ -24,66 +20,40 @@ function formatRange(start, end) {
 export default function CalendarView({ sessions, subjects, onAddSession, onDeleteSession }) {
   const [weekStart, setWeekStart] = useState(() => getMonday(new Date()))
   const [showForm, setShowForm] = useState(false)
+  const weekDays = useMemo(() => Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)), [weekStart])
 
-  const weekDays = useMemo(
-    () => Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)),
-    [weekStart]
-  )
-
-  function handleDeleteWithConfirm(id) {
+  function handleDelete(id) {
     if (window.confirm('Bu seansı silmek istiyor musunuz?')) onDeleteSession(id)
   }
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      {/* Week navigation */}
       <div className="flex items-center justify-between">
-        <button
-          onClick={() => setWeekStart(d => addDays(d, -7))}
-          className="w-9 h-9 flex items-center justify-center bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-lg transition-colors"
-        >
-          ‹
-        </button>
-        <span className="text-sm text-slate-300 font-medium">
+        <button onClick={() => setWeekStart(d => addDays(d, -7))}
+          className="w-9 h-9 flex items-center justify-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-transparent hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white rounded-lg text-lg transition-colors">‹</button>
+        <span className="text-sm text-slate-600 dark:text-slate-300 font-medium">
           {formatRange(weekStart, addDays(weekStart, 6))}
         </span>
-        <button
-          onClick={() => setWeekStart(d => addDays(d, 7))}
-          className="w-9 h-9 flex items-center justify-center bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-lg transition-colors"
-        >
-          ›
-        </button>
+        <button onClick={() => setWeekStart(d => addDays(d, 7))}
+          className="w-9 h-9 flex items-center justify-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-transparent hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white rounded-lg text-lg transition-colors">›</button>
       </div>
 
       {subjects.length === 0 ? (
-        <div className="text-center py-20 text-slate-500 text-sm">
+        <div className="text-center py-20 text-slate-400 dark:text-slate-500 text-sm">
           Takvimi kullanmak için önce bir ders ekleyin.
         </div>
       ) : (
-        <WeeklyCalendar
-          weekDays={weekDays}
-          sessions={sessions}
-          subjects={subjects}
-          onDeleteSession={handleDeleteWithConfirm}
-        />
+        <WeeklyCalendar weekDays={weekDays} sessions={sessions} subjects={subjects} onDeleteSession={handleDelete} />
       )}
 
       {subjects.length > 0 && (
-        <button
-          onClick={() => setShowForm(true)}
+        <button onClick={() => setShowForm(true)}
           className="fixed bottom-20 right-4 w-14 h-14 bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-white text-3xl rounded-full shadow-lg flex items-center justify-center transition-all z-40"
-          title="Seans Ekle"
-        >
-          +
-        </button>
+          title="Seans Ekle">+</button>
       )}
 
       {showForm && (
-        <SessionForm
-          subjects={subjects}
-          onSave={onAddSession}
-          onClose={() => setShowForm(false)}
-        />
+        <SessionForm subjects={subjects} onSave={onAddSession} onClose={() => setShowForm(false)} />
       )}
     </div>
   )

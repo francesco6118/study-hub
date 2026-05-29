@@ -13,13 +13,10 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
   const [session, setSession] = useState(1)
   const [selectedSubjectId, setSelectedSubjectId] = useState(null)
 
-  // Keep a stable ref so handleExpire never needs onSessionComplete in its deps
   const onSessionCompleteRef = useRef(onSessionComplete)
   useEffect(() => { onSessionCompleteRef.current = onSessionComplete }, [onSessionComplete])
 
-  useEffect(() => {
-    requestNotificationPermission()
-  }, [])
+  useEffect(() => { requestNotificationPermission() }, [])
 
   const handleExpire = useCallback(() => {
     playAlarm()
@@ -40,34 +37,22 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
 
   const activeDuration = mode === 'work' ? workMinutes * 60 : breakMinutes * 60
   const { secondsLeft, running, start, pause, reset } = useTimer(activeDuration, handleExpire)
-
-  function handleDurationChange(type, value) {
-    if (type === 'work') setWorkMinutes(value)
-    else setBreakMinutes(value)
-  }
-
   const progress = 1 - secondsLeft / activeDuration
   const circumference = 2 * Math.PI * 110
   const selectedSubject = subjects?.find(s => s.id === selectedSubjectId)
+  const ringColor = selectedSubject ? selectedSubject.color : (mode === 'work' ? '#10b981' : '#f59e0b')
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full max-w-sm mx-auto">
-      <SubjectSelect
-        subjects={subjects ?? []}
-        selectedId={selectedSubjectId}
-        onSelect={setSelectedSubjectId}
-      />
+    <div className="flex flex-col items-center gap-5 w-full max-w-sm mx-auto">
+      <SubjectSelect subjects={subjects ?? []} selectedId={selectedSubjectId} onSelect={setSelectedSubjectId} />
 
-      {/* Circular progress ring */}
-      <div className="relative flex items-center justify-center">
-        <svg width="280" height="280" className="-rotate-90">
-          <circle cx="140" cy="140" r="110" fill="none" stroke="#1e293b" strokeWidth="10" />
-          <circle
-            cx="140" cy="140" r="110"
-            fill="none"
-            stroke={selectedSubject ? selectedSubject.color : (mode === 'work' ? '#10b981' : '#f59e0b')}
-            strokeWidth="10"
-            strokeLinecap="round"
+      {/* Circular progress ring — responsive size */}
+      <div className="relative flex items-center justify-center w-[min(280px,80vw)]">
+        <svg viewBox="0 0 280 280" className="-rotate-90 w-full h-full">
+          {/* CSS variable for track color so it follows theme */}
+          <circle cx="140" cy="140" r="110" fill="none" stroke="var(--timer-track)" strokeWidth="10" />
+          <circle cx="140" cy="140" r="110" fill="none"
+            stroke={ringColor} strokeWidth="10" strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={circumference * (1 - progress)}
             className="transition-all duration-1000"
@@ -80,26 +65,17 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
 
       <TimerControls running={running} onStart={start} onPause={pause} onReset={reset} />
 
-      <p className="text-slate-400 text-sm">
-        Pomodoro <span className="text-white font-semibold">#{session}</span>
+      <p className="text-slate-500 dark:text-slate-400 text-sm">
+        Pomodoro <span className="text-slate-900 dark:text-white font-semibold">#{session}</span>
         {selectedSubject && (
-          <>
-            {' · '}
-            <span style={{ color: selectedSubject.color }} className="font-semibold">
-              {selectedSubject.name}
-            </span>
-          </>
+          <> · <span style={{ color: selectedSubject.color }} className="font-semibold">{selectedSubject.name}</span></>
         )}
       </p>
 
-      <div className="w-full border-t border-slate-700 pt-6">
-        <p className="text-center text-xs text-slate-500 mb-4 uppercase tracking-wide">Süre Ayarları</p>
-        <DurationSettings
-          workMinutes={workMinutes}
-          breakMinutes={breakMinutes}
-          onChange={handleDurationChange}
-          disabled={running}
-        />
+      <div className="w-full border-t border-slate-200 dark:border-slate-700 pt-5">
+        <p className="text-center text-xs text-slate-400 dark:text-slate-500 mb-4 uppercase tracking-wide">Süre Ayarları</p>
+        <DurationSettings workMinutes={workMinutes} breakMinutes={breakMinutes}
+          onChange={(t, v) => t === 'work' ? setWorkMinutes(v) : setBreakMinutes(v)} disabled={running} />
       </div>
     </div>
   )

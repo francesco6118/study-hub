@@ -1,11 +1,12 @@
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts'
 import { formatMinutes } from '../../lib/stats'
 
-const TOOLTIP_STYLE = {
-  backgroundColor: '#1e293b',
-  border: '1px solid #334155',
+// Uses CSS variables defined in index.css so tooltip follows the active theme
+const tooltipStyle = {
+  backgroundColor: 'var(--tooltip-bg)',
+  border: '1px solid var(--tooltip-border)',
   borderRadius: '8px',
-  color: '#f1f5f9',
+  color: 'var(--tooltip-color)',
   fontSize: '12px',
 }
 
@@ -13,18 +14,11 @@ export default function DailyChart({ data }) {
   return (
     <ResponsiveContainer width="100%" height={160}>
       <BarChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 0 }} barCategoryGap="30%">
-        <XAxis
-          dataKey="label"
-          tick={{ fill: '#94a3b8', fontSize: 11 }}
-          axisLine={false}
-          tickLine={false}
-        />
+        <XAxis dataKey="label" tick={{ fill: 'var(--tooltip-muted)', fontSize: 11 }}
+          axisLine={false} tickLine={false} />
         <YAxis hide />
-        <Tooltip
-          formatter={(v) => [formatMinutes(v), 'Süre']}
-          contentStyle={TOOLTIP_STYLE}
-          cursor={{ fill: 'rgba(255,255,255,0.04)' }}
-        />
+        <Tooltip formatter={(v) => [formatMinutes(v), 'Süre']}
+          contentStyle={tooltipStyle} cursor={{ fill: 'rgba(128,128,128,0.06)' }} />
         <Bar dataKey="minutes" fill="#10b981" radius={[4, 4, 0, 0]} minPointSize={2} />
       </BarChart>
     </ResponsiveContainer>

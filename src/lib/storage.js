@@ -8,6 +8,7 @@ export const KEYS = {
   SUBJECT_NOTES:  'studyhub_subject_notes',
   SUBJECT_GOALS:  'studyhub_subject_goals',
   SUBJECT_VIDEOS: 'studyhub_subject_videos',
+  THEME:          'studyhub_theme',
 }
 
 // Single entry point for all localStorage access.

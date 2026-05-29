@@ -88,9 +88,9 @@ Kurallar:
   Günlük seri sayacı, günlük/haftalık hedef, motive edici geri bildirim.
 - [x] **Faz 6 — Ders bazlı not & hedef**
   Her derse not alanı ve hedef belirleme.
-- [ ] **Faz 7 — Google Takvim senkronu** ← ŞU AN BURADAYIZ
+- [ ] **Faz 7 — Google Takvim senkronu**
   Planlanan çalışma seanslarını Google Takvim'e yaz. (En zor faz — Bölüm 7'ye bak.)
-- [ ] **Faz 8 — Cila + PWA**
+- [x] **Faz 8 — Cila + PWA**
   Mobil ince ayar, telefona kurulabilir (PWA) hale getirme, bildirimler.
 - [x] **Faz 9 — Ders videoları**
   Her derse YouTube video listesi; başlık + link ekleme/düzenleme/silme, sıralama (▲▼),

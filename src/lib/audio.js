@@ -31,6 +31,6 @@ export function requestNotificationPermission() {
 
 export function showNotification(title, body) {
   if ('Notification' in window && Notification.permission === 'granted') {
-    new Notification(title, { body, icon: '/vite.svg' })
+    new Notification(title, { body, icon: '/icon.svg' })
   }
 }

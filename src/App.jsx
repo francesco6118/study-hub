@@ -3,6 +3,7 @@ import useSubjects from './hooks/useSubjects'
 import useSessions from './hooks/useSessions'
 import useTasks from './hooks/useTasks'
 import usePomodoroLogs from './hooks/usePomodoroLogs'
+import useTheme from './hooks/useTheme'
 import PomodoroPage from './pages/PomodoroPage'
 import SubjectsPage from './pages/SubjectsPage'
 import CalendarPage from './pages/CalendarPage'
@@ -55,6 +56,26 @@ function StatsIcon({ active }) {
     </svg>
   )
 }
+function SunIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+  )
+}
+function MoonIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  )
+}
 
 const TABS = [
   { id: 'pomodoro', label: 'Pomodoro' },
@@ -63,7 +84,6 @@ const TABS = [
   { id: 'tasks',    label: 'Görevler' },
   { id: 'stats',    label: 'Grafik'   },
 ]
-
 const ICONS = {
   pomodoro: TimerIcon,
   subjects: BookIcon,
@@ -74,15 +94,23 @@ const ICONS = {
 
 export default function App() {
   const [tab, setTab] = useState('pomodoro')
-  const { subjects, addSubject, removeSubject }   = useSubjects()
-  const { sessions, addSession, removeSession }   = useSessions()
+  const { subjects, addSubject, removeSubject }    = useSubjects()
+  const { sessions, addSession, removeSession }    = useSessions()
   const { tasks, addTask, toggleTask, removeTask } = useTasks()
-  const { logs, addLog }                          = usePomodoroLogs()
+  const { logs, addLog }                           = usePomodoroLogs()
+  const { theme, toggle }                          = useTheme()
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
-      <header className="px-4 pt-5 pb-3 max-w-xl mx-auto">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white transition-colors">
+      <header className="px-4 pt-5 pb-3 max-w-xl mx-auto flex items-center justify-between">
         <h1 className="text-xl font-bold tracking-tight">Study Hub</h1>
+        <button
+          onClick={toggle}
+          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors"
+          title={theme === 'dark' ? 'Açık temaya geç' : 'Koyu temaya geç'}
+        >
+          {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+        </button>
       </header>
 
       <main className="px-4 pb-24 max-w-xl mx-auto">
@@ -93,34 +121,29 @@ export default function App() {
           <SubjectsPage subjects={subjects} onAdd={addSubject} onRemove={removeSubject} logs={logs} />
         )}
         {tab === 'calendar' && (
-          <CalendarPage
-            sessions={sessions} subjects={subjects}
-            onAddSession={addSession} onDeleteSession={removeSession}
-          />
+          <CalendarPage sessions={sessions} subjects={subjects}
+            onAddSession={addSession} onDeleteSession={removeSession} />
         )}
         {tab === 'tasks' && (
-          <TasksPage
-            tasks={tasks} subjects={subjects}
-            onAdd={addTask} onToggle={toggleTask} onRemove={removeTask}
-          />
+          <TasksPage tasks={tasks} subjects={subjects}
+            onAdd={addTask} onToggle={toggleTask} onRemove={removeTask} />
         )}
         {tab === 'stats' && (
           <StatsPage logs={logs} subjects={subjects} />
         )}
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 flex z-30">
+      {/* Bottom navigation — pb handles iOS home indicator */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 flex z-30"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         {TABS.map(t => {
           const active = tab === t.id
           const Icon = ICONS[t.id]
           return (
-            <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
+            <button key={t.id} onClick={() => setTab(t.id)}
               className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-xs font-medium transition-colors ${
-                active ? 'text-emerald-400' : 'text-slate-500'
-              }`}
-            >
+                active ? 'text-emerald-500' : 'text-slate-400 dark:text-slate-500'
+              }`}>
               <Icon active={active} />
               {t.label}
             </button>

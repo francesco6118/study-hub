@@ -1,1 +1,41 @@
 @import "tailwindcss";
+
+/* Class-based dark mode: applies when an ancestor has .dark */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* CSS variables for elements that can't use Tailwind classes
+   (SVG stroke attrs, Recharts inline styles) */
+:root {
+  --timer-track:    #e2e8f0;
+  --tooltip-bg:     #ffffff;
+  --tooltip-border: #e2e8f0;
+  --tooltip-color:  #1e293b;
+  --tooltip-muted:  #64748b;
+}
+.dark {
+  --timer-track:    #1e293b;
+  --tooltip-bg:     #1e293b;
+  --tooltip-border: #334155;
+  --tooltip-color:  #f8fafc;
+  --tooltip-muted:  #94a3b8;
+}
+
+/* iOS safe area + tap highlight */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth momentum scroll on iOS */
+main {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* date/time inputs: follow theme */
+input[type="date"],
+input[type="time"] {
+  color-scheme: light;
+}
+.dark input[type="date"],
+.dark input[type="time"] {
+  color-scheme: dark;
+}
