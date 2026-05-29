@@ -3,12 +3,14 @@ import useSubjects from './hooks/useSubjects'
 import useSessions from './hooks/useSessions'
 import useTasks from './hooks/useTasks'
 import usePomodoroLogs from './hooks/usePomodoroLogs'
+import useSubjectVideos from './hooks/useSubjectVideos'
 import useTheme from './hooks/useTheme'
 import PomodoroPage from './pages/PomodoroPage'
 import SubjectsPage from './pages/SubjectsPage'
 import CalendarPage from './pages/CalendarPage'
 import TasksPage from './pages/TasksPage'
 import StatsPage from './pages/StatsPage'
+import VideosPage from './pages/VideosPage'
 
 /* ── Tab / icon definitions ───────────────────────────────────────── */
 const TABS = [
@@ -17,6 +19,7 @@ const TABS = [
   { id: 'calendar', label: 'Takvim'     },
   { id: 'tasks',    label: 'Görevler'   },
   { id: 'stats',    label: 'İstatistik' },
+  { id: 'videos',   label: 'Videolar'   },
 ]
 
 function TimerIcon({ active }) {
@@ -65,6 +68,14 @@ function StatsIcon({ active }) {
     </svg>
   )
 }
+function VideosIcon({ active }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+      stroke={active ? '#10b981' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="5 3 19 12 5 21 5 3" />
+    </svg>
+  )
+}
 function SunIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
@@ -92,6 +103,7 @@ const ICONS = {
   calendar: CalIcon,
   tasks:    TasksIcon,
   stats:    StatsIcon,
+  videos:   VideosIcon,
 }
 
 /* ── App ──────────────────────────────────────────────────────────── */
@@ -101,6 +113,7 @@ export default function App() {
   const { sessions, addSession, removeSession }    = useSessions()
   const { tasks, addTask, toggleTask, removeTask } = useTasks()
   const { logs, addLog }                           = usePomodoroLogs()
+  const videoOps                                   = useSubjectVideos()
   const { theme, toggle }                          = useTheme()
 
   function ThemeButton() {
@@ -116,10 +129,11 @@ export default function App() {
   const pageContent = (
     <>
       {tab === 'pomodoro' && <PomodoroPage subjects={subjects} onSessionComplete={addLog} logs={logs} />}
-      {tab === 'subjects' && <SubjectsPage subjects={subjects} onAdd={addSubject} onRemove={removeSubject} logs={logs} />}
+      {tab === 'subjects' && <SubjectsPage subjects={subjects} onAdd={addSubject} onRemove={removeSubject} logs={logs} videoOps={videoOps} />}
       {tab === 'calendar' && <CalendarPage sessions={sessions} subjects={subjects} onAddSession={addSession} onDeleteSession={removeSession} />}
       {tab === 'tasks'    && <TasksPage tasks={tasks} subjects={subjects} onAdd={addTask} onToggle={toggleTask} onRemove={removeTask} />}
       {tab === 'stats'    && <StatsPage logs={logs} subjects={subjects} />}
+      {tab === 'videos'   && <VideosPage videos={videoOps.videos} subjects={subjects} />}
     </>
   )
 

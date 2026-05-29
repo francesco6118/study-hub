@@ -92,6 +92,9 @@ Kurallar:
   Planlanan çalışma seanslarını Google Takvim'e yaz. (En zor faz — Bölüm 7'ye bak.)
 - [x] **Faz 8 — Cila + PWA**
   Mobil ince ayar, telefona kurulabilir (PWA) hale getirme, bildirimler.
+- [x] **Faz 11 — Video süresi takibi ve İzlenecekler sekmesi**
+  Video ekle/düzenleme formuna "Süre (dk)" alanı; VideoItem'da dk chip; "Videolar" sekmesi:
+  toplam izlenecek süre kartı, global ilerleme çubuğu, ders bazlı döküm.
 - [x] **Faz 10 — Görsel cila turu**
   Select/date/time koyu tema, streak "0 gün", Türkçe ay adları, İstatistik ismi tutarlılığı,
   masaüstü kenar çubuğu, içerik genişletme, hover efektleri.

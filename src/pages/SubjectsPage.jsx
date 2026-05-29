@@ -3,13 +3,11 @@ import SubjectManager from '../features/subjects/SubjectManager'
 import SubjectDetail from '../features/subjects/SubjectDetail'
 import useSubjectNotes from '../hooks/useSubjectNotes'
 import useSubjectGoals from '../hooks/useSubjectGoals'
-import useSubjectVideos from '../hooks/useSubjectVideos'
 
-export default function SubjectsPage({ subjects, onAdd, onRemove, logs }) {
+export default function SubjectsPage({ subjects, onAdd, onRemove, logs, videoOps }) {
   const [selectedId, setSelectedId] = useState(null)
   const { getNote, setNote }                          = useSubjectNotes()
   const { goalsFor, addGoal, toggleGoal, removeGoal } = useSubjectGoals()
-  const videoOps                                      = useSubjectVideos()
 
   const selected = useMemo(
     () => subjects.find(s => s.id === selectedId) ?? null,

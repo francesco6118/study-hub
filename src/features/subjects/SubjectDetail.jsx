@@ -52,7 +52,7 @@ export default function SubjectDetail({
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-100 dark:border-transparent">
         <SubjectVideos
           videos={subjectVideos}
-          onAdd={(title, url) => addVideo(subject.id, title, url)}
+          onAdd={(title, url, mins) => addVideo(subject.id, title, url, mins)}
           onUpdate={updateVideo} onRemove={removeVideo}
           onToggle={toggleVideo} onMove={moveVideo}
         />

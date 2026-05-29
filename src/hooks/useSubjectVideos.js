@@ -14,7 +14,7 @@ export default function useSubjectVideos() {
       .sort((a, b) => a.order - b.order)
   }
 
-  function addVideo(subjectId, title, url) {
+  function addVideo(subjectId, title, url, durationMinutes = 0) {
     const maxOrder = videos
       .filter(v => v.subjectId === subjectId)
       .reduce((m, v) => Math.max(m, v.order), -1)
@@ -22,12 +22,15 @@ export default function useSubjectVideos() {
       id: crypto.randomUUID(), subjectId,
       title: title.trim(), url: url.trim(),
       completed: false, order: maxOrder + 1,
+      durationMinutes: Number(durationMinutes) || 0,
     }])
   }
 
-  function updateVideo(id, { title, url }) {
+  function updateVideo(id, { title, url, durationMinutes }) {
     setVideos(prev => prev.map(v =>
-      v.id === id ? { ...v, title: title.trim(), url: url.trim() } : v
+      v.id === id
+        ? { ...v, title: title.trim(), url: url.trim(), durationMinutes: Number(durationMinutes) || 0 }
+        : v
     ))
   }
 
@@ -57,5 +60,5 @@ export default function useSubjectVideos() {
     })
   }
 
-  return { videosFor, addVideo, updateVideo, removeVideo, toggleVideo, moveVideo }
+  return { videos, videosFor, addVideo, updateVideo, removeVideo, toggleVideo, moveVideo }
 }
