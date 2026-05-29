@@ -60,6 +60,32 @@ export function bySubjectData(logs, subjects) {
     .sort((a, b) => b.minutes - a.minutes)
 }
 
+// Counts consecutive days ending on today or yesterday that have ≥1 log.
+// Using T12:00:00 for date arithmetic to avoid DST edge cases.
+export function calcStreak(logs) {
+  if (logs.length === 0) return 0
+
+  const today = localToday()
+  const yesterdayDate = new Date()
+  yesterdayDate.setDate(yesterdayDate.getDate() - 1)
+  const yesterday = toLocalDate(yesterdayDate)
+
+  const days = Array.from(new Set(logs.map(l => toLocalDate(l.completedAt)))).sort().reverse()
+
+  if (days[0] !== today && days[0] !== yesterday) return 0
+
+  let streak = 0
+  let expected = days[0]
+  for (const day of days) {
+    if (day !== expected) break
+    streak++
+    const prev = new Date(expected + 'T12:00:00')
+    prev.setDate(prev.getDate() - 1)
+    expected = toLocalDate(prev)
+  }
+  return streak
+}
+
 export function formatMinutes(minutes) {
   if (minutes === 0) return '—'
   const h = Math.floor(minutes / 60)

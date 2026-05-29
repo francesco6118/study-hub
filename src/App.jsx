@@ -87,7 +87,7 @@ export default function App() {
 
       <main className="px-4 pb-24 max-w-xl mx-auto">
         {tab === 'pomodoro' && (
-          <PomodoroPage subjects={subjects} onSessionComplete={addLog} />
+          <PomodoroPage subjects={subjects} onSessionComplete={addLog} logs={logs} />
         )}
         {tab === 'subjects' && (
           <SubjectsPage subjects={subjects} onAdd={addSubject} onRemove={removeSubject} />

@@ -3,6 +3,8 @@ export const KEYS = {
   SESSIONS:      'studyhub_sessions',
   TASKS:         'studyhub_tasks',
   POMODORO_LOGS: 'studyhub_pomodoro_logs',
+  BEST_STREAK:   'studyhub_best_streak',
+  DAILY_GOAL:    'studyhub_daily_goal',
 }
 
 // Single entry point for all localStorage access.
