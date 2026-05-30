@@ -9,7 +9,11 @@
       "PowerShell(head *)",
       "Bash(npm run *)",
       "Bash(npm uninstall *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5180)",
+      "Bash(node *)"
     ]
   }
 }

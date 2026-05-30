@@ -108,6 +108,14 @@ Kurallar:
   SM-2 algoritması, tekrar kartları (ön yüz + isteğe bağlı arka yüz), Zor/Orta/Kolay
   değerlendirmesi, otomatik aralık & ease factor hesaplama (min 1.3), ders detayında kart
   yönetimi + toplam/hazır stat, "Tekrar" sekmesi, tekrar oturumu ekranı, mobil ikon-only nav.
+- [x] **Faz 14 — Pomodoro Ses Güzelleştirmesi**
+  Web Audio API sentezi; paylaşımlı AudioContext; üç ayrı ses: Başlat onayı (C5→G5 tam
+  beşli), mola başlangıcı (A4 meditasyon kâsesi, detuned beating), çalışmaya dönüş (G majör
+  arpej). Soft attack/decay zarfları, harmonikler. Ses aç/kapa + seviye ayarlarına uyumlu.
+- [x] **Faz 15 — Veri Yedekleme (Dışa/İçe Aktarma)**
+  Pomodoro Ayarlar panelinde Yedekleme bölümü; tüm localStorage verisini tarihli
+  study-hub-yedek-YYYY-MM-DD.json olarak indirir; içe aktarmada dosya adı + geri alınamaz
+  uyarısı gösteren onay diyaloğu; bozuk/yabancı dosya için veriyi bozmayan hata mesajı.
 
 ---
 
