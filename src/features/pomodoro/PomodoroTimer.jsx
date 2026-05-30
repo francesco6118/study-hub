@@ -8,6 +8,7 @@ import DurationSettings from './DurationSettings'
 import SubjectSelect from './SubjectSelect'
 import CycleDots from './CycleDots'
 import SoundSettings from './SoundSettings'
+import BackupPanel from '../settings/BackupPanel'
 
 const RING = { work: '#10b981', break: '#f59e0b', longBreak: '#8b5cf6' }
 
@@ -186,6 +187,10 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
         </div>
 
         <SoundSettings enabled={soundEnabled} volume={soundVolume} onUpdate={update} />
+
+        <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
+          <BackupPanel />
+        </div>
       </div>
     </div>
   )
