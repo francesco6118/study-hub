@@ -104,6 +104,10 @@ Kurallar:
 - [x] **Faz 9 — Ders videoları**
   Her derse YouTube video listesi; başlık + link ekleme/düzenleme/silme, sıralama (▲▼),
   "Bitirdim" checkbox'ı, X/Y ilerleme çubuğu. Iframe yok — link yeni sekmede açılır.
+- [x] **Faz 13 — Akıllı Tekrar (Spaced Repetition)**
+  SM-2 algoritması, tekrar kartları (ön yüz + isteğe bağlı arka yüz), Zor/Orta/Kolay
+  değerlendirmesi, otomatik aralık & ease factor hesaplama (min 1.3), ders detayında kart
+  yönetimi + toplam/hazır stat, "Tekrar" sekmesi, tekrar oturumu ekranı, mobil ikon-only nav.
 
 ---
 

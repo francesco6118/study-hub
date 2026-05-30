@@ -4,6 +4,7 @@ import useSessions from './hooks/useSessions'
 import useTasks from './hooks/useTasks'
 import usePomodoroLogs from './hooks/usePomodoroLogs'
 import useSubjectVideos from './hooks/useSubjectVideos'
+import useFlashcards from './hooks/useFlashcards'
 import useTheme from './hooks/useTheme'
 import PomodoroPage from './pages/PomodoroPage'
 import SubjectsPage from './pages/SubjectsPage'
@@ -11,6 +12,7 @@ import CalendarPage from './pages/CalendarPage'
 import TasksPage from './pages/TasksPage'
 import StatsPage from './pages/StatsPage'
 import VideosPage from './pages/VideosPage'
+import ReviewPage from './pages/ReviewPage'
 
 /* ── Tab / icon definitions ───────────────────────────────────────── */
 const TABS = [
@@ -20,6 +22,7 @@ const TABS = [
   { id: 'tasks',    label: 'Görevler'   },
   { id: 'stats',    label: 'İstatistik' },
   { id: 'videos',   label: 'Videolar'   },
+  { id: 'tekrar',   label: 'Tekrar'     },
 ]
 
 function TimerIcon({ active }) {
@@ -76,6 +79,17 @@ function VideosIcon({ active }) {
     </svg>
   )
 }
+function RepeatIcon({ active }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+      stroke={active ? '#10b981' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 2l4 4-4 4" />
+      <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+      <path d="M7 22l-4-4 4-4" />
+      <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+    </svg>
+  )
+}
 function SunIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
@@ -104,6 +118,7 @@ const ICONS = {
   tasks:    TasksIcon,
   stats:    StatsIcon,
   videos:   VideosIcon,
+  tekrar:   RepeatIcon,
 }
 
 /* ── App ──────────────────────────────────────────────────────────── */
@@ -114,7 +129,9 @@ export default function App() {
   const { tasks, addTask, toggleTask, removeTask } = useTasks()
   const { logs, addLog }                           = usePomodoroLogs()
   const videoOps                                   = useSubjectVideos()
+  const flashcardOps                               = useFlashcards()
   const { theme, toggle }                          = useTheme()
+  const dueBadge = flashcardOps.dueCards.length
 
   function ThemeButton() {
     return (
@@ -129,11 +146,12 @@ export default function App() {
   const pageContent = (
     <>
       {tab === 'pomodoro' && <PomodoroPage subjects={subjects} onSessionComplete={addLog} logs={logs} />}
-      {tab === 'subjects' && <SubjectsPage subjects={subjects} onAdd={addSubject} onRemove={removeSubject} logs={logs} videoOps={videoOps} />}
+      {tab === 'subjects' && <SubjectsPage subjects={subjects} onAdd={addSubject} onRemove={removeSubject} logs={logs} videoOps={videoOps} flashcardOps={flashcardOps} />}
       {tab === 'calendar' && <CalendarPage sessions={sessions} subjects={subjects} onAddSession={addSession} onDeleteSession={removeSession} />}
       {tab === 'tasks'    && <TasksPage tasks={tasks} subjects={subjects} onAdd={addTask} onToggle={toggleTask} onRemove={removeTask} />}
       {tab === 'stats'    && <StatsPage logs={logs} subjects={subjects} />}
       {tab === 'videos'   && <VideosPage videos={videoOps.videos} subjects={subjects} />}
+      {tab === 'tekrar'   && <ReviewPage cards={flashcardOps.cards} subjects={subjects} onCardUpdate={flashcardOps.updateCard} />}
     </>
   )
 
@@ -150,6 +168,7 @@ export default function App() {
           {TABS.map(t => {
             const active = tab === t.id
             const Icon = ICONS[t.id]
+            const badge = t.id === 'tekrar' ? dueBadge : 0
             return (
               <button key={t.id} onClick={() => setTab(t.id)}
                 className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
@@ -157,8 +176,13 @@ export default function App() {
                     ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
                     : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white active:scale-95'
                 }`}>
-                <span className={active ? '' : 'group-hover:scale-110 transition-transform'}>
+                <span className={`relative ${active ? '' : 'group-hover:scale-110 transition-transform'}`}>
                   <Icon active={active} />
+                  {badge > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 min-w-[14px] h-3.5 px-0.5 text-[9px] font-bold bg-emerald-500 text-white rounded-full flex items-center justify-center leading-none">
+                      {badge > 99 ? '99+' : badge}
+                    </span>
+                  )}
                 </span>
                 {t.label}
               </button>
@@ -190,19 +214,26 @@ export default function App() {
           </div>
         </main>
 
-        {/* Mobile bottom nav */}
+        {/* Mobile bottom nav — icon-only to fit 7 tabs */}
         <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 flex z-30"
           style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
           {TABS.map(t => {
             const active = tab === t.id
             const Icon = ICONS[t.id]
+            const badge = t.id === 'tekrar' ? dueBadge : 0
             return (
               <button key={t.id} onClick={() => setTab(t.id)}
-                className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-xs font-medium transition-colors ${
+                className={`flex-1 flex items-center justify-center py-3.5 transition-colors ${
                   active ? 'text-emerald-500' : 'text-slate-400 dark:text-slate-500'
                 }`}>
-                <Icon active={active} />
-                {t.label}
+                <span className="relative">
+                  <Icon active={active} />
+                  {badge > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 min-w-[14px] h-3.5 px-0.5 text-[9px] font-bold bg-emerald-500 text-white rounded-full flex items-center justify-center leading-none">
+                      {badge > 99 ? '99+' : badge}
+                    </span>
+                  )}
+                </span>
               </button>
             )
           })}

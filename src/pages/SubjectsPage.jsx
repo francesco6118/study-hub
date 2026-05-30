@@ -4,7 +4,7 @@ import SubjectDetail from '../features/subjects/SubjectDetail'
 import useSubjectNotes from '../hooks/useSubjectNotes'
 import useSubjectGoals from '../hooks/useSubjectGoals'
 
-export default function SubjectsPage({ subjects, onAdd, onRemove, logs, videoOps }) {
+export default function SubjectsPage({ subjects, onAdd, onRemove, logs, videoOps, flashcardOps }) {
   const [selectedId, setSelectedId] = useState(null)
   const { getNote, setNote }                          = useSubjectNotes()
   const { goalsFor, addGoal, toggleGoal, removeGoal } = useSubjectGoals()
@@ -26,6 +26,7 @@ export default function SubjectsPage({ subjects, onAdd, onRemove, logs, videoOps
         onToggleGoal={toggleGoal}
         onRemoveGoal={removeGoal}
         videoOps={videoOps}
+        flashcardOps={flashcardOps}
         onBack={() => setSelectedId(null)}
       />
     )

@@ -2,7 +2,9 @@ import { useMemo } from 'react'
 import SubjectNotes from './SubjectNotes'
 import SubjectGoals from './SubjectGoals'
 import SubjectVideos from './SubjectVideos'
+import FlashcardList from '../flashcards/FlashcardList'
 import { formatMinutes } from '../../lib/stats'
+import { todayStr } from '../../lib/sm2'
 
 function StatMini({ value, label }) {
   return (
@@ -16,12 +18,15 @@ function StatMini({ value, label }) {
 export default function SubjectDetail({
   subject, logs, note, onSaveNote,
   goals, onAddGoal, onToggleGoal, onRemoveGoal,
-  videoOps, onBack,
+  videoOps, flashcardOps, onBack,
 }) {
   const subjectLogs = useMemo(() => logs.filter(l => l.subjectId === subject.id), [logs, subject.id])
   const totalMinutes = subjectLogs.reduce((s, l) => s + l.durationMinutes, 0)
   const { videosFor, addVideo, updateVideo, removeVideo, toggleVideo, moveVideo } = videoOps
   const subjectVideos = videosFor(subject.id)
+  const { cardsFor, addCard, updateCard, removeCard } = flashcardOps
+  const subjectCards = cardsFor(subject.id)
+  const dueCardCount = subjectCards.filter(c => c.dueDate <= todayStr()).length
 
   return (
     <div className="flex flex-col gap-5 w-full">
@@ -41,6 +46,13 @@ export default function SubjectDetail({
         <StatMini value={formatMinutes(totalMinutes)} label="toplam süre" />
       </div>
 
+      {subjectCards.length > 0 && (
+        <div className="flex gap-3">
+          <StatMini value={subjectCards.length} label="toplam kart" />
+          <StatMini value={dueCardCount} label="bugün hazır" />
+        </div>
+      )}
+
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-100 dark:border-transparent">
         <SubjectNotes key={subject.id} initialText={note} onSave={onSaveNote} />
       </div>
@@ -55,6 +67,16 @@ export default function SubjectDetail({
           onAdd={(title, url, mins) => addVideo(subject.id, title, url, mins)}
           onUpdate={updateVideo} onRemove={removeVideo}
           onToggle={toggleVideo} onMove={moveVideo}
+        />
+      </div>
+
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-100 dark:border-transparent">
+        <FlashcardList
+          subjectId={subject.id}
+          cards={subjectCards}
+          onAdd={addCard}
+          onUpdate={updateCard}
+          onRemove={removeCard}
         />
       </div>
     </div>

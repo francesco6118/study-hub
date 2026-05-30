@@ -3,7 +3,13 @@
     "allow": [
       "PowerShell(npm create *)",
       "Bash(npm list *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\study-hub\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "PowerShell(head *)",
+      "Bash(npm run *)",
+      "Bash(npm uninstall *)",
+      "Bash(git add *)"
     ]
   }
 }
