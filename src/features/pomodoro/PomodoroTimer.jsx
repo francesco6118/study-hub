@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import useTimer from '../../hooks/useTimer'
 import usePomodoroSettings from '../../hooks/usePomodoroSettings'
-import { playAlarm, requestNotificationPermission, showNotification } from '../../lib/audio'
+import { playStart, playBreakStart, playWorkStart, requestNotificationPermission, showNotification } from '../../lib/audio'
 import TimerDisplay from './TimerDisplay'
 import TimerControls from './TimerControls'
 import DurationSettings from './DurationSettings'
@@ -38,7 +38,10 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
   /* ── Core expire logic ─────────────────────────────────────────── */
   const handleExpire = useCallback(() => {
     const { soundEnabled: se, soundVolume: sv, longBreakInterval: lbi, autoStart: as } = settingsRef.current
-    if (se) playAlarm(sv)
+    if (se) {
+      if (mode === 'work') playBreakStart(sv)
+      else                 playWorkStart(sv)
+    }
 
     if (mode === 'work') {
       onSessionCompleteRef.current?.({
@@ -72,6 +75,12 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
 
   const { secondsLeft, running, start, pause, reset } = useTimer(activeDuration, handleExpire)
 
+  function handleStart() {
+    const { soundEnabled: se, soundVolume: sv } = settingsRef.current
+    if (se) playStart(sv)
+    start()
+  }
+
   /* ── Auto-start: fires after mode change causes timer reset ─────── */
   useEffect(() => {
     if (!pendingAutoStartRef.current) return
@@ -97,7 +106,7 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return
       if (document.activeElement?.isContentEditable) return
       e.preventDefault()
-      running ? pause() : start()
+      running ? pause() : handleStart()
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
@@ -146,7 +155,7 @@ export default function PomodoroTimer({ subjects, onSessionComplete }) {
         </div>
       </div>
 
-      <TimerControls running={running} onStart={start} onPause={pause} onReset={reset} />
+      <TimerControls running={running} onStart={handleStart} onPause={pause} onReset={reset} />
 
       <p className="text-slate-500 dark:text-slate-400 text-sm">
         Pomodoro <span className="text-slate-900 dark:text-white font-semibold">#{session}</span>
